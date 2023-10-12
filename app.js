@@ -42,15 +42,22 @@ app.use(session({
 
 app.get('/', function (req, res) {
   var conocido = Boolean(req.session.nombre);
+  var nacionalidad = Boolean(req.session.pais);
 
   res.render('index', {
     title: 'sesiones en express.js',
     conocido: conocido,
-    nombre: req.session.nombre
+    nacionalidad: nacionalidad,
+    nombre: req.session.nombre,
+    pais: req.session.pais
   });
 })
 
 app.post('/ingresar', function (req, res) {
+
+  if (req.body.pais) {
+    req.session.pais = req.body.pais
+  }
 
   if (req.body.nombre) {
     req.session.nombre = req.body.nombre
@@ -65,35 +72,6 @@ app.get('/salir', function (req, res) {
 
 // termina codigo 1 generado por mi
 
-
-// comienza codigo 2 generado por mi
-
-app.get('/', function (req, res) {
-  var nacionalidad = Boolean(req.session.pais); 
-
-  res.render('index', {
-    //title: 'sesiones en express.js',
-    nacionalidad: nacionalidad,
-    pais: req.session.pais
-  });
-})
-
-app.post('/ingresar', function (req, res) {
-
-  if (req.body.pais) {
-    req.session.pais = req.body.pais
-  }
-  res.redirect('/');
-});
-
-app.get('/salir', function (req, res) {
-  req.session.destroy();
-  res.redirect('/');
-});
-
-
-
-//termina codigo 2 generado por mi
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
